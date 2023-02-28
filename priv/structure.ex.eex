@@ -1,0 +1,17 @@
+defmodule GenLSP.Structures.<%= @structure.name %> do<%= if @structure.documentation do %>
+  @moduledoc """
+  <%= String.replace(@structure.documentation, "\n", "\n  ") %>
+  """
+  <% end %>
+
+  use TypedStruct
+
+  typedstruct do<%= for p <- @properties do %><%= if p.documentation do %>
+    # <%= String.replace(p.documentation, "\n", "\n    # ") %><% end %>
+    field :<%= p.name %>, <%= LSPCodegen.Codegen.to_string(p.type, @metamodel) %><%= enforce(p.optional) %>
+    <% end %>
+  end
+
+  def decode(json) do
+  end
+end
