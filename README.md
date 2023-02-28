@@ -1,6 +1,6 @@
-# LspCodegen
+# LSPCodegen
 
-**TODO: Add description**
+Codgen for [GenLSP](https://github.com/mhanberg/gen_lsp).
 
 ## Installation
 
