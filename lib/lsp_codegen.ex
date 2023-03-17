@@ -8,7 +8,7 @@ defmodule LSPCodegen do
 
     %LSPCodegen.MetaModel{} =
       metamodel =
-      File.read!("./metaModel.json")
+      File.read!(Path.join(:code.priv_dir(:lsp_codegen), "metaModel.json"))
       |> Jason.decode!(keys: :atoms)
       |> LSPCodegen.MetaModel.new()
 
