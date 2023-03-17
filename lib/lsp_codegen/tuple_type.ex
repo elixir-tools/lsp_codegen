@@ -20,14 +20,14 @@ defmodule LSPCodegen.TupleType do
   end
 
   defimpl LSPCodegen.Codegen do
-    def to_string(_type, _metamodel) do
-      "list()"
+    def to_string(type, metamodel) do
+      "{#{Enum.map_join(type.items, ", ", &LSPCodegen.Codegen.to_string(&1, metamodel))}}"
     end
   end
 
   defimpl LSPCodegen.Schematic do
-    def to_string(type, _metamodel) do
-      ~s|all([list(), func(& length(&1) == #{length(type.items)})])|
+    def to_string(type, metamodel) do
+      ~s|tuple([#{Enum.map_join(type.items, ", ", &LSPCodegen.Schematic.to_string(&1, metamodel))}], from: :list)|
     end
   end
 end
