@@ -31,4 +31,23 @@ defmodule LSPCodegen.Enumeration do
       values: for(e <- enumeration.values, do: EnumerationEntry.new(e))
     }
   end
+
+  defimpl LSPCodegen.Codegen do
+    require EEx
+    @path Path.join(:code.priv_dir(:lsp_codegen), "enumeration.ex.eex")
+
+    def to_string(enumeration, metamodel) do
+      render(%{
+        enumeration: enumeration,
+        values: enumeration.values,
+        metamodel: metamodel
+      })
+    end
+
+    EEx.function_from_file(:defp, :render, @path, [:assigns])
+  end
+
+  defimpl LSPCodegen.Naming do
+    def name(%{name: name}), do: name
+  end
 end

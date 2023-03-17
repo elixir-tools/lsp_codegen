@@ -18,8 +18,38 @@ defmodule LSPCodegen.ReferenceType do
   end
 
   defimpl LSPCodegen.Codegen do
-    def to_string(%{name: name} = ref, metamodel) do
-      "GenLSP.Structures.#{name}.t()"
+    def to_string(%{name: name}, metamodel) do
+      cond do
+        Enum.any?(metamodel.structures, &(&1.name == name)) ->
+          "GenLSP.Structures.#{name}.t()"
+
+        Enum.any?(metamodel.type_aliases, &(&1.name == name)) ->
+          "GenLSP.TypeAlias.#{name}.t()"
+
+        Enum.any?(metamodel.enumerations, &(&1.name == name)) ->
+          "GenLSP.Enumerations.#{name}.t()"
+
+        true ->
+          raise "Unknown reference type: #{name}"
+      end
+    end
+  end
+
+  defimpl LSPCodegen.Schematic do
+    def to_string(%{name: name}, metamodel) do
+      cond do
+        Enum.any?(metamodel.structures, &(&1.name == name)) ->
+          "GenLSP.Structures.#{name}.schematic()"
+
+        Enum.any?(metamodel.type_aliases, &(&1.name == name)) ->
+          "GenLSP.TypeAlias.#{name}.schematic()"
+
+        Enum.any?(metamodel.enumerations, &(&1.name == name)) ->
+          "GenLSP.Enumerations.#{name}.schematic()"
+
+        true ->
+          raise "Unknown reference type: #{name}"
+      end
     end
   end
 end

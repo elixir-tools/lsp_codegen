@@ -37,4 +37,30 @@ defmodule LSPCodegen.Request do
       since: request[:since]
     }
   end
+
+  defimpl LSPCodegen.Codegen do
+    require EEx
+    @path Path.join(:code.priv_dir(:lsp_codegen), "request.ex.eex")
+
+    def to_string(request, metamodel) do
+      render(%{
+        request: request,
+        params: request.params,
+        metamodel: metamodel
+      })
+    end
+
+    def enforce(value) when value in [false, nil], do: ", enforce: true"
+    def enforce(true), do: ""
+
+    EEx.function_from_file(:defp, :render, @path, [:assigns])
+  end
+
+  defimpl LSPCodegen.Naming do
+    def name(%{method: method}) do
+      method
+      |> String.replace("/", "_")
+      |> Macro.camelize()
+    end
+  end
 end

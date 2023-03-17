@@ -1,6 +1,6 @@
 defmodule LSPCodegen.BaseTypes do
   @type t ::
-          :Uri
+          :URI
           | :DocumentUri
           | :integer
           | :uinteger
@@ -17,7 +17,7 @@ defmodule LSPCodegen.BaseTypes do
 
   def new(type) do
     case type do
-      "Uri" -> :Uri
+      "URI" -> :URI
       "DocumentUri" -> :DocumentUri
       "integer" -> :integer
       "uinteger" -> :uinteger

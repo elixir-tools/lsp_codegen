@@ -21,8 +21,13 @@ defmodule LSPCodegen.ArrayType do
 
   defimpl LSPCodegen.Codegen do
     def to_string(%{element: type}, metamodel) do
-      # dbg(type)
       "list(#{LSPCodegen.Codegen.to_string(type, metamodel)})"
+    end
+  end
+
+  defimpl LSPCodegen.Schematic do
+    def to_string(array_type, metamodel) do
+      "list(#{LSPCodegen.Schematic.to_string(array_type.element, metamodel)})"
     end
   end
 end

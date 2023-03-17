@@ -1,0 +1,4 @@
+map(%{<%= for p <- @structure.properties do %>
+  {"<%= p.name %>", :<%= Macro.underscore(p.name) %>} => <%= LSPCodegen.Schematic.to_string(p.type, @metamodel) %>,
+<% end %>
+})

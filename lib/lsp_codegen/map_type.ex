@@ -21,4 +21,16 @@ defmodule LSPCodegen.MapType do
       value: Type.new(type.value)
     }
   end
+
+  defimpl LSPCodegen.Schematic do
+    def to_string(type, metamodel) do
+      "map(keys: #{LSPCodegen.Schematic.to_string(type.key, metamodel)}, values: #{LSPCodegen.Schematic.to_string(type.value, metamodel)})"
+    end
+  end
+
+  defimpl LSPCodegen.Codegen do
+    def to_string(map_type, metamodel) do
+      "%{#{LSPCodegen.Codegen.to_string(map_type.key, metamodel)} => #{LSPCodegen.Codegen.to_string(map_type.value, metamodel)}}"
+    end
+  end
 end

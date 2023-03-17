@@ -3,9 +3,22 @@ defprotocol LSPCodegen.Codegen do
   def to_string(type, metamodel)
 end
 
-defimpl LSPCodegen.Codegen, for: Any do
-  def to_string(type, _metamodel) do
-    # IO.inspect(type, label: "any!")
-    "any()"
+defprotocol LSPCodegen.Schematic do
+  def to_string(type, metamodel)
+end
+
+defprotocol LSPCodegen.Naming do
+  def name(type)
+end
+
+defimpl LSPCodegen.Codegen, for: Atom do
+  def to_string(nil, _metamodel) do
+    "nil"
+  end
+end
+
+defimpl LSPCodegen.Schematic, for: Atom do
+  def to_string(nil, _metamodel) do
+    "null()"
   end
 end

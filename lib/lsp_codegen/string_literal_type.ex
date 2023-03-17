@@ -16,4 +16,16 @@ defmodule LSPCodegen.StringLiteralType do
       value: type.value
     }
   end
+
+  defimpl LSPCodegen.Codegen do
+    def to_string(_type, _metamodel) do
+      ~s|String.t()|
+    end
+  end
+
+  defimpl LSPCodegen.Schematic do
+    def to_string(type, _metamodel) do
+      ~s|str("#{type.value}")|
+    end
+  end
 end

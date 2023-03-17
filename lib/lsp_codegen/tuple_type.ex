@@ -18,4 +18,16 @@ defmodule LSPCodegen.TupleType do
       items: for(i <- type.items, do: Type.new(i))
     }
   end
+
+  defimpl LSPCodegen.Codegen do
+    def to_string(_type, _metamodel) do
+      "list()"
+    end
+  end
+
+  defimpl LSPCodegen.Schematic do
+    def to_string(type, _metamodel) do
+      ~s|all([list(), func(& length(&1) == #{length(type.items)})])|
+    end
+  end
 end

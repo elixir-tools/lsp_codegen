@@ -19,36 +19,34 @@ defmodule LSPCodegen.BaseType do
     }
   end
 
+  defimpl LSPCodegen.Schematic do
+    def to_string(type, _metamodel) do
+      case type.name do
+        :URI -> "str()"
+        :DocumentUri -> "str()"
+        :integer -> "int()"
+        :uinteger -> "int()"
+        :decimal -> "str()"
+        :RegExp -> "str()"
+        :string -> "str()"
+        :boolean -> "bool()"
+        :null -> "null()"
+      end
+    end
+  end
+
   defimpl LSPCodegen.Codegen do
     def to_string(type, _metamodel) do
-      # dbg "base!"
       case type.name do
-        :Uri ->
-          "GenLSP.BaseTypes.uri()"
-
-        :DocumentUri ->
-          "GenLSP.BaseTypes.document_uri()"
-
-        :integer ->
-          "integer()"
-
-        :uinteger ->
-          "GenLSP.BaseTypes.uinteger()"
-
-        :decimal ->
-          "float()"
-
-        :RegExp ->
-          "Regex.t()"
-
-        :string ->
-          "String.t()"
-
-        :boolean ->
-          "boolean()"
-
-        :null ->
-          "nil"
+        :URI -> "GenLSP.BaseTypes.uri()"
+        :DocumentUri -> "GenLSP.BaseTypes.document_uri()"
+        :integer -> "integer()"
+        :uinteger -> "GenLSP.BaseTypes.uinteger()"
+        :decimal -> "float()"
+        :RegExp -> "Regex.t()"
+        :string -> "String.t()"
+        :boolean -> "boolean()"
+        :null -> "nil"
       end
     end
   end

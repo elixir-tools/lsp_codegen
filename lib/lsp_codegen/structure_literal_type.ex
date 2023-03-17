@@ -21,8 +21,22 @@ defmodule LSPCodegen.StructureLiteralType do
 
   defimpl LSPCodegen.Codegen do
     def to_string(_type, _metamodel) do
-      # dbg("structure literal!")
       "map()"
     end
+  end
+
+  defimpl LSPCodegen.Schematic do
+    require EEx
+    @path Path.join(:code.priv_dir(:lsp_codegen), "structure_literal.ex.eex")
+
+    def to_string(structure, metamodel) do
+      render(%{
+        structure: structure.value,
+        metamodel: metamodel
+      })
+      |> String.trim()
+    end
+
+    EEx.function_from_file(:defp, :render, @path, [:assigns])
   end
 end

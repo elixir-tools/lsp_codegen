@@ -1,18 +1,27 @@
 defmodule LSPCodegen do
-  def generate(_) do
-    %LSPCodegen.MetaModel{structures: structures} =
+  def generate(argv) when is_list(argv) do
+    {opts, _} = OptionParser.parse!(argv, strict: [path: :string])
+    path = opts[:path]
+
+    File.rm_rf!(path)
+    File.mkdir_p!(path)
+
+    %LSPCodegen.MetaModel{} =
       metamodel =
       File.read!("./metaModel.json")
       |> Jason.decode!(keys: :atoms)
       |> LSPCodegen.MetaModel.new()
 
-    Enum.find(structures, fn s -> s.name == "SelectionRange" end) |> dbg
+    for mod <-
+          metamodel.structures ++
+            metamodel.requests ++
+            metamodel.notifications ++ metamodel.enumerations ++ metamodel.type_aliases do
+      source_code = LSPCodegen.Codegen.to_string(mod, metamodel)
 
-    for {%LSPCodegen.Structure{} = structure, idx} <- Enum.with_index(structures) do
-      if idx == 22 do
-        LSPCodegen.Codegen.to_string(structure, metamodel)
-        |> IO.puts()
-      end
+      File.write!(
+        Path.join(path, Macro.underscore(LSPCodegen.Naming.name(mod)) <> ".ex"),
+        source_code
+      )
     end
   end
 end

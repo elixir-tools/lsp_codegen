@@ -32,4 +32,31 @@ defmodule LSPCodegen.Notification do
       since: notification[:since]
     }
   end
+
+  defimpl LSPCodegen.Codegen do
+    require EEx
+    @path Path.join(:code.priv_dir(:lsp_codegen), "notification.ex.eex")
+
+    def to_string(notification, metamodel) do
+      render(%{
+        notification: notification,
+        params: notification.params,
+        metamodel: metamodel
+      })
+    end
+
+    def enforce(value) when value in [false, nil], do: ", enforce: true"
+    def enforce(true), do: ""
+
+    EEx.function_from_file(:defp, :render, @path, [:assigns])
+  end
+
+  defimpl LSPCodegen.Naming do
+    def name(%{method: method}) do
+      method
+      |> String.replace("/", "_")
+      |> String.replace("$", "Dollar")
+      |> Macro.camelize()
+    end
+  end
 end
