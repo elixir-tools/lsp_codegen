@@ -60,7 +60,7 @@ defmodule LSPCodegen.Structure do
           Enum.find(structures, &(&1.raw_name == e.name)).properties
         end)
 
-      (structure.properties ++ mixins ++ extends) |> Enum.uniq()
+      (structure.properties ++ mixins ++ extends) |> Enum.uniq_by(& &1.name)
     end
 
     def enforce(value) when value in [false, nil], do: ", enforce: true"
