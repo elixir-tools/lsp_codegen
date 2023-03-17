@@ -4,6 +4,8 @@ defmodule GenLSP.Requests.<%= LSPCodegen.Naming.name(@request) %> do<%= if @requ
   <%= String.replace(@request.documentation, "\n", "\n  ") %>
   """<% end %>
 
+  import Schematic
+
   use TypedStruct
 
   typedstruct do
