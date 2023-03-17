@@ -8,13 +8,18 @@ defmodule GenLSP.Notifications.<%= LSPCodegen.Naming.name(@notification) %> do<%
 
   use TypedStruct
 
+  @derive Jason.Encoder
   typedstruct do
+    field :method, String.t() default: <%= @notification.method %>, enforce: true
+    field :jsonrpc, String.t(), default: "2.0", enforce: true
     field :params, <%= LSPCodegen.Codegen.to_string(@params, @metamodel) %>
   end
 
   @doc false
   def schematic() do
     schema(__MODULE__, %{
+      method: str("<%= @notification.method %>"),
+      jsonrpc: str("2.0"),
       params: <%= LSPCodegen.Schematic.to_string(@params, @metamodel) %>
     })
   end

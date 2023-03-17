@@ -13,6 +13,7 @@ defmodule GenLSP.Enumerations.<%= LSPCodegen.Naming.name(@enumeration) %> do<%= 
   <%= for v <- @values do %>
   * <%= Macro.underscore(v.name) %><%= if v.documentation do %>: <%= String.replace(v.documentation, "\n", "\n    ") %><% end %><% end %>
   """
+  @derive Jason.Encoder
   typedstruct do<%= for v <- @values do %>
     field :<%= Macro.underscore(v.name) %>, <%= LSPCodegen.Codegen.to_string(@enumeration.type, @metamodel) %>, default: <%= inspect(v.value) %><% end %>
   end

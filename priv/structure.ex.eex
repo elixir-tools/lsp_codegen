@@ -13,6 +13,7 @@ defmodule GenLSP.Structures.<%= @structure.name %> do<%= if @structure.documenta
   <%= for p <- @properties do %>
   * <%= Macro.underscore(p.name) %><%= if p.documentation do %>: <%= String.replace(p.documentation, "\n", "\n    ") %><% end %><% end %>
   """
+  @derive Jason.Encoder
   typedstruct do<%= for p <- @properties do %>
     field :<%= Macro.underscore(p.name) %>, <%= LSPCodegen.Codegen.to_string(p.type, @metamodel) %><%= enforce(p.optional) %><% end %>
   end
