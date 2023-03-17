@@ -1,0 +1,26 @@
+# codegen: do not edit
+defmodule GenLSP.Enumerations.<%= LSPCodegen.Naming.name(@enumeration) %> do<%= if @enumeration.documentation do %>
+  @moduledoc """
+  <%= String.replace(@enumeration.documentation, "\n", "\n  ") %>
+  """<% end %>
+
+  use TypedStruct
+
+  @doc """
+  ## Values
+  <%= for v <- @values do %>
+  * <%= Macro.underscore(v.name) %><%= if v.documentation do %>: <%= String.replace(v.documentation, "\n", "\n    ") %><% end %><% end %>
+  """
+  typedstruct do<%= for v <- @values do %>
+    field :<%= Macro.underscore(v.name) %>, <%= LSPCodegen.Codegen.to_string(@enumeration.type, @metamodel) %>, default: <%= inspect(v.value) %><% end %>
+  end
+
+  def v, do: %__MODULE__{}
+
+  @doc false
+  def schematic() do
+    oneof([<%= for v <- @values do %>
+      <%= LSPCodegen.Schematic.to_string(v, @metamodel) %>,<% end %>
+    ])
+  end
+end

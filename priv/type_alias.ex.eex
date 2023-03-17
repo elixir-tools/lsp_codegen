@@ -1,0 +1,15 @@
+# codegen: do not edit
+defmodule GenLSP.TypeAlias.<%= @type_alias.name %> do<%= if @type_alias.documentation do %>
+  @moduledoc """
+  <%= String.replace(@type_alias.documentation, "\n", "\n  ") %>
+  """<% end %>
+
+  import Schematic
+
+  @type t :: <%= LSPCodegen.Codegen.to_string(@type_alias.type, @metamodel) %>
+
+  @doc false
+  def schematic() do
+    <%= LSPCodegen.Schematic.to_string(@type_alias.type, @metamodel) %>
+  end
+end

@@ -1,0 +1,19 @@
+# codegen: do not edit
+defmodule GenLSP.Notifications.<%= LSPCodegen.Naming.name(@notification) %> do<%= if @notification.documentation do %>
+  @moduledoc """
+  <%= String.replace(@notification.documentation, "\n", "\n  ") %>
+  """<% end %>
+
+  use TypedStruct
+
+  typedstruct do
+    field :params, <%= LSPCodegen.Codegen.to_string(@params, @metamodel) %>
+  end
+
+  @doc false
+  def schematic() do
+    schema(__MODULE__, %{
+      params: <%= LSPCodegen.Schematic.to_string(@params, @metamodel) %>
+    })
+  end
+end

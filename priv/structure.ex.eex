@@ -1,0 +1,26 @@
+# codegen: do not edit
+defmodule GenLSP.Structures.<%= @structure.name %> do<%= if @structure.documentation do %>
+  @moduledoc """
+  <%= String.replace(@structure.documentation, "\n", "\n  ") %>
+  """<% end %>
+
+  import Schematic
+
+  use TypedStruct
+
+  @doc """
+  ## Fields
+  <%= for p <- @properties do %>
+  * <%= Macro.underscore(p.name) %><%= if p.documentation do %>: <%= String.replace(p.documentation, "\n", "\n    ") %><% end %><% end %>
+  """
+  typedstruct do<%= for p <- @properties do %>
+    field :<%= Macro.underscore(p.name) %>, <%= LSPCodegen.Codegen.to_string(p.type, @metamodel) %><%= enforce(p.optional) %><% end %>
+  end
+
+  @doc false
+  def schematic() do
+    schema(__MODULE__, %{<%= for p <- @properties do %>
+      {"<%= p.name %>", :<%= Macro.underscore(p.name) %>} => <%= maybe_wrap_in_optional(p.optional, LSPCodegen.Schematic.to_string(p.type, @metamodel)) %>,<% end %>
+    })
+  end
+end
