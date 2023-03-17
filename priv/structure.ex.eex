@@ -4,7 +4,7 @@ defmodule GenLSP.Structures.<%= @structure.name %> do<%= if @structure.documenta
   <%= String.replace(@structure.documentation, "\n", "\n  ") %>
   """<% end %>
 
-  import Schematic
+  import Schematic, warn: false
 
   use TypedStruct
 

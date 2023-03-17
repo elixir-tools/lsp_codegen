@@ -4,7 +4,7 @@ defmodule GenLSP.Notifications.<%= LSPCodegen.Naming.name(@notification) %> do<%
   <%= String.replace(@notification.documentation, "\n", "\n  ") %>
   """<% end %>
 
-  import Schematic
+  import Schematic, warn: false
 
   use TypedStruct
 

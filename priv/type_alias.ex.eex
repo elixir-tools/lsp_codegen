@@ -4,7 +4,7 @@ defmodule GenLSP.TypeAlias.<%= @type_alias.name %> do<%= if @type_alias.document
   <%= String.replace(@type_alias.documentation, "\n", "\n  ") %>
   """<% end %>
 
-  import Schematic
+  import Schemati, warn: falsec
 
   @type t :: <%= LSPCodegen.Codegen.to_string(@type_alias.type, @metamodel) %>
 

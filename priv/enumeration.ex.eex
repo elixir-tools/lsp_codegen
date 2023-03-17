@@ -4,7 +4,7 @@ defmodule GenLSP.Enumerations.<%= LSPCodegen.Naming.name(@enumeration) %> do<%= 
   <%= String.replace(@enumeration.documentation, "\n", "\n  ") %>
   """<% end %>
 
-  import Schematic
+  import Schematic, warn: false
 
   use TypedStruct
 
