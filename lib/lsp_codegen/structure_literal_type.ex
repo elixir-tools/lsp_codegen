@@ -37,6 +37,9 @@ defmodule LSPCodegen.StructureLiteralType do
       |> String.trim()
     end
 
+    def maybe_wrap_in_optional(true, schematic), do: "oneof([null(), #{schematic}])"
+    def maybe_wrap_in_optional(_, schematic), do: schematic
+
     EEx.function_from_file(:defp, :render, @path, [:assigns])
   end
 end

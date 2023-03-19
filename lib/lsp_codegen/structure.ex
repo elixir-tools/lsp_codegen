@@ -63,11 +63,11 @@ defmodule LSPCodegen.Structure do
       (structure.properties ++ mixins ++ extends) |> Enum.uniq_by(& &1.name)
     end
 
-    def enforce(value) when value in [false, nil], do: ", enforce: true"
-    def enforce(true), do: ""
+    defp enforce(value) when value in [false, nil], do: ", enforce: true"
+    defp enforce(true), do: ""
 
-    def maybe_wrap_in_optional(true, schematic), do: "oneof([null(), #{schematic}])"
-    def maybe_wrap_in_optional(_, schematic), do: schematic
+    defp maybe_wrap_in_optional(true, schematic), do: "oneof([null(), #{schematic}])"
+    defp maybe_wrap_in_optional(_, schematic), do: schematic
 
     EEx.function_from_file(:defp, :render, @path, [:assigns])
   end
