@@ -60,11 +60,11 @@ defmodule LSPCodegen do
       import Schematic
 
       def new(request) do
-        oneof([
+        assimilate(oneof([
           <%= for r <- Enum.sort_by(@requests, & &1.method) do %>
             GenLSP.Requests.<%= LSPCodegen.Naming.name(r) %>.schematic(),
           <% end %>
-        ])
+        ]), request)
       end
     end
     """,
@@ -78,12 +78,12 @@ defmodule LSPCodegen do
     defmodule GenLSP.Notifications do
       import Schematic
 
-      def new(request) do
-        oneof([
+      def new(notification) do
+        assimilate(oneof([
           <%= for n <- Enum.sort_by(@notifications, & &1.method) do %>
             GenLSP.Notifications.<%= LSPCodegen.Naming.name(n) %>.schematic(),
           <% end %>
-        ])
+        ]), notification)
       end
     end
     """,
