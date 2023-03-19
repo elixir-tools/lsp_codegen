@@ -6,10 +6,20 @@ defmodule GenLSP.TypeAlias.<%= @type_alias.name %> do<%= if @type_alias.document
 
   import Schematic, warn: false
 
-  @type t :: <%= LSPCodegen.Codegen.to_string(@type_alias.type, @metamodel) %>
+  @type t :: <%= case @type_alias.name do %>
+    <% "LSPAny" -> %>any()
+    <% "LSPObject" -> %>%{String.t() =>  any()}
+    <% "LSPArray" -> %>list(any())
+    <% _ -> %><%= LSPCodegen.Codegen.to_string(@type_alias.type, @metamodel) %>
+    <% end %>
 
   @doc false
   def schematic() do
-    <%= LSPCodegen.Schematic.to_string(@type_alias.type, @metamodel) %>
+    <%= case @type_alias.name do %>
+    <% "LSPAny" -> %>any()
+    <% "LSPObject" -> %>map(keys: str(), values: any())
+    <% "LSPArray" -> %>list(any())
+    <% _ -> %><%= LSPCodegen.Schematic.to_string(@type_alias.type, @metamodel) %>
+    <% end %>
   end
 end
