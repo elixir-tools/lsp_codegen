@@ -60,7 +60,7 @@ defmodule LSPCodegen do
       import Schematic
 
       def new(request) do
-        one_of([
+        oneof([
           <%= for r <- Enum.sort_by(@requests, & &1.method) do %>
             GenLSP.Requests.<%= LSPCodegen.Naming.name(r) %>.schematic(),
           <% end %>
@@ -79,7 +79,7 @@ defmodule LSPCodegen do
       import Schematic
 
       def new(request) do
-        one_of([
+        oneof([
           <%= for n <- Enum.sort_by(@notifications, & &1.method) do %>
             GenLSP.Notifications.<%= LSPCodegen.Naming.name(n) %>.schematic(),
           <% end %>
