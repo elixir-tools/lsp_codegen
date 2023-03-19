@@ -60,11 +60,12 @@ defmodule LSPCodegen do
       import Schematic
 
       def new(request) do
-        unify(oneof([
+        unify(oneof(fn
           <%= for r <- Enum.sort_by(@requests, & &1.method) do %>
-            GenLSP.Requests.<%= LSPCodegen.Naming.name(r) %>.schematic(),
+            %{"method" => <%= inspect(r.method) %>} -> GenLSP.Requests.<%= LSPCodegen.Naming.name(r) %>.schematic()
           <% end %>
-        ]), request)
+            _ -> {:error, "unexpected request payload"}
+        end), request)
       end
     end
     """,
@@ -79,11 +80,12 @@ defmodule LSPCodegen do
       import Schematic
 
       def new(notification) do
-        unify(oneof([
+        unify(oneof(fn
           <%= for n <- Enum.sort_by(@notifications, & &1.method) do %>
-            GenLSP.Notifications.<%= LSPCodegen.Naming.name(n) %>.schematic(),
+            %{"method" => <%= inspect(n.method) %>} -> GenLSP.Notifications.<%= LSPCodegen.Naming.name(n) %>.schematic()
           <% end %>
-        ]), notification)
+            _ -> {:error, "unexpected notification payload"}
+        end), notification)
       end
     end
     """,
