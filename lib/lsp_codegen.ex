@@ -1,4 +1,6 @@
 defmodule LSPCodegen do
+  require EEx
+
   alias LSPCodegen.{
     Enumeration,
     Notification,
@@ -41,5 +43,50 @@ defmodule LSPCodegen do
         source_code
       )
     end
+
+    File.write!(Path.join(path, "requests.ex"), render_requests(%{requests: metamodel.requests}))
+
+    File.write!(
+      Path.join(path, "notifications.ex"),
+      render_notifications(%{notifications: metamodel.notifications})
+    )
   end
+
+  EEx.function_from_string(
+    :defp,
+    :render_requests,
+    """
+    defmodule GenLSP.Requests do
+      import Schematic
+
+      def new(request) do
+        one_of([
+          <%= for r <- Enum.sort_by(@requests, & &1.method) do %>
+            GenLSP.Requests.<%= LSPCodegen.Naming.name(r) %>.schematic(),
+          <% end %>
+        ])
+      end
+    end
+    """,
+    [:assigns]
+  )
+
+  EEx.function_from_string(
+    :defp,
+    :render_notifications,
+    """
+    defmodule GenLSP.Notifications do
+      import Schematic
+
+      def new(request) do
+        one_of([
+          <%= for n <- Enum.sort_by(@notifications, & &1.method) do %>
+            GenLSP.Notifications.<%= LSPCodegen.Naming.name(n) %>.schematic(),
+          <% end %>
+        ])
+      end
+    end
+    """,
+    [:assigns]
+  )
 end
