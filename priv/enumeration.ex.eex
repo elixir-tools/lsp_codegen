@@ -6,20 +6,11 @@ defmodule GenLSP.Enumerations.<%= LSPCodegen.Naming.name(@enumeration) %> do<%= 
 
   import Schematic, warn: false
 
-  use TypedStruct
-
-  @doc """
-  ## Values
-  <%= for v <- @values do %>
-  * <%= Macro.underscore(v.name) %><%= if v.documentation do %>: <%= String.replace(v.documentation, "\n", "\n    ") %><% end %><% end %>
-  """
-  @derive Jason.Encoder
-  typedstruct do<%= for v <- @values do %>
-    field :<%= Macro.underscore(v.name) %>, <%= LSPCodegen.Codegen.to_string(@enumeration.type, @metamodel) %>, default: <%= inspect(v.value) %><% end %>
-  end
-
-  def v, do: %__MODULE__{}
-
+  <%= for v <- @values do %><%= if v.documentation do %>@doc """
+  <%= String.replace(v.documentation, "\n", "\n  ") %>
+  """<% end %>
+  def <%= Macro.underscore(v.name) %>, do: <%= inspect(v.value) %>
+  <% end %>
   @doc false
   def schematic() do
     oneof([<%= for v <- @values do %>
