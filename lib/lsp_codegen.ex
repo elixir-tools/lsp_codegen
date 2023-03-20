@@ -50,6 +50,8 @@ defmodule LSPCodegen do
       Path.join(path, "notifications.ex"),
       render_notifications(%{notifications: metamodel.notifications})
     )
+
+    File.write!(Path.join(path, "base_types.ex"), render_base_types())
   end
 
   EEx.function_from_string(
@@ -90,5 +92,19 @@ defmodule LSPCodegen do
     end
     """,
     [:assigns]
+  )
+
+  EEx.function_from_string(
+    :defp,
+    :render_base_types,
+    """
+    defmodule GenLSP.BaseTypes do
+      @type uri :: String.t()
+      @type document_uri :: String.t()
+      @type uinteger :: integer()
+      @type null :: nil
+    end
+    """,
+    []
   )
 end
