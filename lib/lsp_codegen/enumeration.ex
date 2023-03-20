@@ -40,6 +40,11 @@ defmodule LSPCodegen.Enumeration do
       render(%{
         enumeration: enumeration,
         values: enumeration.values,
+        type:
+          if(enumeration.type.name == :string,
+            do: "String.t()",
+            else: Enum.map_join(enumeration.values, " | ", &inspect(&1.value))
+          ),
         metamodel: metamodel
       })
     end
