@@ -2,6 +2,8 @@
 defmodule GenLSP.Notifications.<%= LSPCodegen.Naming.name(@notification) %> do<%= if @notification.documentation do %>
   @moduledoc """
   <%= String.replace(@notification.documentation, "\n", "\n  ") %>
+
+  Message Direction: <%= @notification.message_direction %>
   """<% end %>
 
   import Schematic, warn: false

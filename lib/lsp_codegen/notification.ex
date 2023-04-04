@@ -9,6 +9,7 @@ defmodule LSPCodegen.Notification do
 
   typedstruct do
     field :documentation, String.t()
+    field :message_direction, String.t()
     field :method, String.t(), enforce: true
     field :params, Type.t() | list(Type.t())
     field :proposed, boolean()
@@ -24,8 +25,9 @@ defmodule LSPCodegen.Notification do
       end
 
     %__MODULE__{
-      method: notification.method,
       documentation: notification[:documentation],
+      message_direction: notification[:messageDirection],
+      method: notification.method,
       params: params,
       proposed: notification[:proposed],
       registration_options: Type.new(notification[:registrationOptions]),

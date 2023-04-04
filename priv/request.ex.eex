@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.<%= LSPCodegen.Naming.name(@request) %> do<%= if @request.documentation do %>
   @moduledoc """
   <%= String.replace(@request.documentation, "\n", "\n  ") %>
+
+  Message Direction: <%= @request.message_direction %>
   """<% end %>
 
   import Schematic, warn: false

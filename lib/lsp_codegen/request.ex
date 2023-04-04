@@ -10,6 +10,7 @@ defmodule LSPCodegen.Request do
   typedstruct do
     field :documentation, String.t()
     field :error_data, Type.t()
+    field :message_direction, String.t()
     field :method, String.t(), enforce: true
     field :params, Type.t() | list(Type.t())
     field :partial_result, Type.t()
@@ -27,13 +28,14 @@ defmodule LSPCodegen.Request do
       end
 
     %__MODULE__{
-      method: request.method,
-      result: Type.new(request.result),
       documentation: request[:documentation],
+      message_direction: request[:messageDirection],
+      method: request.method,
       params: params,
       partial_result: Type.new(request[:partial_result]),
       proposed: request[:proposed],
       registration_options: Type.new(request[:registrationOptions]),
+      result: Type.new(request.result),
       since: request[:since]
     }
   end
