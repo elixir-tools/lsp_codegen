@@ -66,8 +66,8 @@ defmodule LSPCodegen.Structure do
     defp enforce(value) when value in [false, nil], do: ", enforce: true"
     defp enforce(true), do: ""
 
-    defp maybe_wrap_in_optional(true, schematic), do: "nullable(#{schematic})"
-    defp maybe_wrap_in_optional(_, schematic), do: schematic
+    defp maybe_wrap_in_optional(true, key), do: "optional(#{key})"
+    defp maybe_wrap_in_optional(_, key), do: key
 
     EEx.function_from_file(:defp, :render, @path, [:assigns])
   end
