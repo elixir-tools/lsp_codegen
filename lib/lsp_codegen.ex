@@ -123,6 +123,14 @@ defmodule LSPCodegen do
       """
       import Schematic
 
+      use TypedStruct
+
+      typedstruct do
+        field :data, String.t() | number() | boolean() | list() | map() | nil
+        field :code, integer(), enforce: true
+        field :message, String.t(), enforce: true
+      end
+
       @spec result() :: Schematic.t()
       def result() do
         map(%{
