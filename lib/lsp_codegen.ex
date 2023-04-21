@@ -131,8 +131,8 @@ defmodule LSPCodegen do
         field :message, String.t(), enforce: true
       end
 
-      @spec result() :: Schematic.t()
-      def result() do
+      @spec schematic() :: Schematic.t()
+      def schematic() do
         map(%{
           optional(:data) => oneof([str(), int(), bool(), list(), map(), null()]),
           code: int(),
