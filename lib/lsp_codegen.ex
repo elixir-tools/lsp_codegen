@@ -123,8 +123,8 @@ defmodule LSPCodegen do
       """
       import Schematic
 
-      @spec schematic() :: Schematic.t()
-      def schematic() do
+      @spec result() :: Schematic.t()
+      def result() do
         map(%{
           optional(:data) => oneof([str(), int(), bool(), list(), map(), null()]),
           code: int(),
