@@ -34,6 +34,9 @@ defmodule GenLSP.Requests.<%= LSPCodegen.Naming.name(@request) %> do<%= if @requ
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    <%= LSPCodegen.Schematic.to_string(@request.result, @metamodel) %>
+    oneof([
+      <%= LSPCodegen.Schematic.to_string(@request.result, @metamodel) %>,
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

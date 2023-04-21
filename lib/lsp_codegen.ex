@@ -52,6 +52,7 @@ defmodule LSPCodegen do
     )
 
     File.write!(Path.join(path, "base_types.ex"), render_base_types())
+    File.write!(Path.join(path, "error_response.ex"), render_error())
   end
 
   EEx.function_from_string(
@@ -105,6 +106,33 @@ defmodule LSPCodegen do
       @type null :: nil
     end
     """,
+    []
+  )
+
+  EEx.function_from_string(
+    :defp,
+    :render_error,
+    ~s'''
+    defmodule GenLSP.ErrorResponse do
+      @moduledoc """
+      A Response Message sent as a result of a request.
+
+      If a request doesn’t provide a result value the receiver of a request still needs to return a response message to conform to the JSON-RPC specification.
+
+      The result property of the ResponseMessage should be set to null in this case to signal a successful request.
+      """
+      import Schematic
+
+      @spec schematic() :: Schematic.t()
+      def schematic() do
+        map(%{
+          optional(:data) => oneof([str(), int(), bool(), list(), map(), null()]),
+          code: int(),
+          message: str(),
+        })
+      end
+    end
+    ''',
     []
   )
 end
