@@ -133,7 +133,7 @@ defmodule LSPCodegen do
 
       @spec schematic() :: Schematic.t()
       def schematic() do
-        map(%{
+        schema(__MODULE__, %{
           optional(:data) => oneof([str(), int(), bool(), list(), map(), null()]),
           code: int(),
           message: str(),
