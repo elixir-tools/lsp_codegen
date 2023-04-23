@@ -22,7 +22,7 @@ defmodule GenLSP.Structures.<%= @structure.name %> do<%= if @structure.documenta
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{<%= for p <- @properties do %>
-      <%= maybe_wrap_in_optional(p.optional, ~s|{"#{p.name}", :#{Macro.underscore(p.name)}}|) %> => <%= LSPCodegen.Schematic.to_string(p.type, @metamodel) %>,<% end %>
+      <%= maybe_wrap_in_optional(p.optional, ~s|{"#{p.name}", :#{Macro.underscore(p.name)}}|) %> => <%= maybe_replace_with_recurse(LSPCodegen.Schematic.to_string(p.type, @metamodel), LSPCodegen.Schematic.to_string(LSPCodegen.ReferenceType.new(@structure), @metamodel)) %>,<% end %>
     })
   end
 end
