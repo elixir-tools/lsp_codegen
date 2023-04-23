@@ -59,6 +59,7 @@ defmodule LSPCodegen do
     :defp,
     :render_requests,
     """
+    # codegen: do not edit
     defmodule GenLSP.Requests do
       import Schematic
 
@@ -79,6 +80,7 @@ defmodule LSPCodegen do
     :defp,
     :render_notifications,
     """
+    # codegen: do not edit
     defmodule GenLSP.Notifications do
       import Schematic
 
@@ -99,6 +101,7 @@ defmodule LSPCodegen do
     :defp,
     :render_base_types,
     """
+    # codegen: do not edit
     defmodule GenLSP.BaseTypes do
       @type uri :: String.t()
       @type document_uri :: String.t()
@@ -113,6 +116,7 @@ defmodule LSPCodegen do
     :defp,
     :render_error,
     ~s'''
+    # codegen: do not edit
     defmodule GenLSP.ErrorResponse do
       @moduledoc """
       A Response Message sent as a result of a request.
