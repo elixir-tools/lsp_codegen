@@ -19,6 +19,7 @@ defmodule GenLSP.Enumerations.<%= LSPCodegen.Naming.name(@enumeration) %> do<%= 
   def schematic() do
     oneof([<%= for v <- @values do %>
       <%= LSPCodegen.Schematic.to_string(v, @metamodel) %>,<% end %>
+      <%= if @enumeration.supports_custom_values, do: (if @enumeration.type.name == :string, do: "str()", else: "int()"), else: "" %>
     ])
   end
 end
