@@ -19,7 +19,7 @@ defmodule LSPCodegen.BooleanLiteralType do
 
   defimpl LSPCodegen.Schematic do
     def to_string(boolean_literal, _metamodel) do
-      "bool(#{boolean_literal.value})"
+      "#{boolean_literal.value}"
     end
   end
 end

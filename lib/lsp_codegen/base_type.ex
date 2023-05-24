@@ -30,7 +30,7 @@ defmodule LSPCodegen.BaseType do
         :RegExp -> "str()"
         :string -> "str()"
         :boolean -> "bool()"
-        :null -> "null()"
+        :null -> "nil"
       end
     end
   end

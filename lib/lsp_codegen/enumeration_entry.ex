@@ -25,11 +25,11 @@ defmodule LSPCodegen.EnumerationEntry do
 
   defimpl LSPCodegen.Schematic do
     def to_string(entry, _metamodel) when is_integer(entry.value) do
-      "int(#{entry.value})"
+      "#{entry.value}"
     end
 
     def to_string(entry, _metamodel) when is_binary(entry.value) do
-      ~s|str("#{entry.value}")|
+      ~s|"#{entry.value}"|
     end
   end
 end

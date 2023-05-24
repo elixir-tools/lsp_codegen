@@ -19,6 +19,6 @@ end
 
 defimpl LSPCodegen.Schematic, for: Atom do
   def to_string(nil, _metamodel) do
-    "null()"
+    "nil"
   end
 end
