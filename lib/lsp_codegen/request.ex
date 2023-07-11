@@ -22,9 +22,10 @@ defmodule LSPCodegen.Request do
 
   def new(request) do
     params =
-      case request[:params] do
-        params when is_list(params) -> for(p <- params, do: Type.new(p))
-        params -> Type.new(params)
+      case request do
+        %{params: params} when is_list(params) -> for(p <- params, do: Type.new(p))
+        %{params: params} -> Type.new(params)
+        _ -> :none
       end
 
     %__MODULE__{
