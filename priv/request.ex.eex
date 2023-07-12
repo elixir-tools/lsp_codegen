@@ -14,8 +14,8 @@ defmodule GenLSP.Requests.<%= LSPCodegen.Naming.name(@request) %> do<%= if @requ
   typedstruct do
     field :method, String.t(), default: "<%= @request.method %>"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
-    <%= unless @params == :none do %> field :params, <%= LSPCodegen.Codegen.to_string(@params, @metamodel) %> <% end %>
+    field :id, integer(), enforce: true<%= unless @params == :none do %>
+    field :params, <%= LSPCodegen.Codegen.to_string(@params, @metamodel) %> <% end %>
   end
 
   @type result :: <%= LSPCodegen.Codegen.to_string(@request.result, @metamodel) %>
