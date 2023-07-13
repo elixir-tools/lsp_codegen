@@ -17,7 +17,25 @@ defmodule GenLSP.TypeAlias.<%= @type_alias.name %> do<%= if @type_alias.document
   @spec schematic() :: Schematic.t()
   def schematic() do
     <%= case @type_alias.name do %>
-    <% "LSPAny" -> %>any()
+    <% "LSPAny" -> %>
+    %Schematic{
+      kind: "lspany",
+      unify: fn x, dir ->
+        case x do
+          %mod{} ->
+            Code.ensure_loaded(mod)
+            if function_exported?(mod, :schematic, 0) do
+              mod.schematic().unify.(x, dir)
+            else
+              {:ok, x}
+            end
+
+          _ ->
+            {:ok, x}
+        end
+      end
+    }
+
     <% "LSPObject" -> %>map(keys: str(), values: any())
     <% "LSPArray" -> %>list(any())
     <% _ -> %><%= LSPCodegen.Schematic.to_string(@type_alias.type, @metamodel) %>
