@@ -70,7 +70,7 @@ defmodule LSPCodegen.Structure do
     defp maybe_wrap_in_optional(_, key), do: key
 
     defp maybe_replace_with_recurse(text, type) do
-      String.replace(text, type, "{__MODULE__, :schematic, []}")
+      String.replace(text, type, "{__MODULE__, :schema, []}")
     end
 
     EEx.function_from_file(:defp, :render, @path, [:assigns])

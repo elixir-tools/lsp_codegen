@@ -27,7 +27,7 @@ defmodule LSPCodegen.TypeAlias do
 
   defimpl LSPCodegen.Schematic do
     def to_string(type_alias, _metamodel) do
-      "GenLSP.TypeAlias.#{type_alias.name}.schematic()"
+      "GenLSP.TypeAlias.#{type_alias.name}.schema()"
     end
   end
 

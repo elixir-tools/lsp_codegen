@@ -21,8 +21,8 @@ defmodule GenLSP.Requests.<%= LSPCodegen.Naming.name(@request) %> do<%= if @requ
   @type result :: <%= LSPCodegen.Codegen.to_string(@request.result, @metamodel) %>
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "<%= @request.method %>",
       jsonrpc: "2.0",
@@ -36,7 +36,7 @@ defmodule GenLSP.Requests.<%= LSPCodegen.Naming.name(@request) %> do<%= if @requ
   def result() do
     oneof([
       <%= LSPCodegen.Schematic.to_string(@request.result, @metamodel) %>,
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

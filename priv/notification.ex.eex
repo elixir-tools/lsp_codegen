@@ -18,8 +18,8 @@ defmodule GenLSP.Notifications.<%= LSPCodegen.Naming.name(@notification) %> do<%
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "<%= @notification.method %>",
       jsonrpc: "2.0",

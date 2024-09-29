@@ -14,8 +14,8 @@ defmodule GenLSP.TypeAlias.<%= @type_alias.name %> do<%= if @type_alias.document
     <% end %>
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     <%= case @type_alias.name do %>
     <% "LSPAny" -> %>
     %Schematic{
@@ -25,7 +25,7 @@ defmodule GenLSP.TypeAlias.<%= @type_alias.name %> do<%= if @type_alias.document
           %mod{} ->
             Code.ensure_loaded(mod)
             if function_exported?(mod, :schematic, 0) do
-              mod.schematic().unify.(x, dir)
+              mod.schema().unify.(x, dir)
             else
               {:ok, x}
             end
