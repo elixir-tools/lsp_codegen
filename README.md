@@ -1,6 +1,6 @@
 # LSPCodegen
 
-Library to generate LSP protocol code for [gen_lsp](https://github.com/mhanberg/gen_lsp).
+Library to generate LSP protocol code for [gen_lsp](https://github.com/elixir-tools/gen_lsp).
 
 ## Usage
 
