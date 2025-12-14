@@ -56,11 +56,24 @@ defmodule LSPCodegen.Structure do
         end)
 
       extends =
-        Enum.flat_map(structure.extends, fn e ->
-          Enum.find(structures, &(&1.raw_name == e.name)).properties
-        end)
+        Enum.flat_map(structure.extends, &all_properties_for(&1.name, structures))
 
       (structure.properties ++ mixins ++ extends) |> Enum.uniq_by(& &1.name)
+    end
+
+    # recursively collects ALL properties for a structure by name
+    defp all_properties_for(name, structures) do
+      structure = Enum.find(structures, &(&1.raw_name == name))
+
+      mixins =
+        Enum.flat_map(structure.mixins, fn m ->
+          Enum.find(structures, &(&1.raw_name == m.name)).properties
+        end)
+
+      extends =
+        Enum.flat_map(structure.extends, &all_properties_for(&1.name, structures))
+
+      structure.properties ++ mixins ++ extends
     end
 
     defp enforce(value) when value in [false, nil], do: ", enforce: true"
